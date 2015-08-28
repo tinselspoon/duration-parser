@@ -5,3 +5,5 @@ Java parser for durations expressed in JIRA-style numbers with suffixes, e.g. "1
 * Call `DurationParser.parseToSeconds` with a string to parse. Valid suffixes are d (days), h (hours), m (minutes) and s (seconds).
 * Any amount of whitespace is allowed, but suffixes must be next to their numbers.
 * Decimals are supported, but the final result is rounded to the nearest integer.
+
+[![Build Status](https://travis-ci.org/tinselspoon/duration-parser.svg?branch=master)](https://travis-ci.org/tinselspoon/duration-parser)
