@@ -7,7 +7,7 @@ import java.text.ParsePosition;
 /**
  * Converts duration strings containing a mixture of time units with suffixes, e.g. "2h 30m", into a total number of seconds.
  */
-public class DurationParser {
+public final class DurationParser {
 
 	/**
 	 * Private constructor.
@@ -18,22 +18,22 @@ public class DurationParser {
 	/**
 	 * Used for readability in other constants.
 	 */
-	private static final int seconds = 1;
+	private static final int SECONDS = 1;
 
 	/**
 	 * Number of seconds in a minute.
 	 */
-	private static final int minutes = 60 * seconds;
+	private static final int MINUTES = 60 * SECONDS;
 
 	/**
 	 * Number of seconds in an hour.
 	 */
-	private static final int hours = 60 * minutes;
+	private static final int HOURS = 60 * MINUTES;
 
 	/**
 	 * Number of seconds in a day.
 	 */
-	private static final int days = 24 * hours;
+	private static final int DAYS = 24 * HOURS;
 
 	/**
 	 * Parses the specified duration string to a total number of seconds.
@@ -45,40 +45,40 @@ public class DurationParser {
 	 * @return the total number of seconds represented by the duration string
 	 * @throws ParseException if the input string could not be successfully parsed
 	 */
-	public static long parseToSeconds(String duration) throws ParseException {
+	public static long parseToSeconds(final String duration) throws ParseException {
 
 		long total = 0;
-		NumberFormat nf = NumberFormat.getInstance();
-		ParsePosition parsePosition = new ParsePosition(0);
+		final NumberFormat nf = NumberFormat.getInstance();
+		final ParsePosition parsePosition = new ParsePosition(0);
 
 		// Consume any starting whitespace of the string
 		consumeWhitespace(duration, parsePosition);
 
 		do {
 			// Parse the number
-			Number numberOb = nf.parse(duration, parsePosition);
+			final Number numberOb = nf.parse(duration, parsePosition);
 			if (numberOb == null)
 				throw new ParseException("Unable to parse number.", parsePosition.getIndex());
-			double number = numberOb.doubleValue();
+			final double number = numberOb.doubleValue();
 
 			// Extract the suffix
 			if (duration.length() <= parsePosition.getIndex())
 				throw new ParseException("Number '" + number + "' must be followed by a suffix.", parsePosition.getIndex());
-			char suffix = duration.charAt(parsePosition.getIndex());
+			final char suffix = duration.charAt(parsePosition.getIndex());
 
 			// Apply the appropriate multiplication
 			switch (suffix) {
 				case 'd':
-					total += Math.round(number * days);
+					total += Math.round(number * DAYS);
 					break;
 				case 'h':
-					total += Math.round(number * hours);
+					total += Math.round(number * HOURS);
 					break;
 				case 'm':
-					total += Math.round(number * minutes);
+					total += Math.round(number * MINUTES);
 					break;
 				case 's':
-					total += Math.round(number * seconds);
+					total += Math.round(number * SECONDS);
 					break;
 				default:
 					throw new ParseException("Invalid suffix '" + suffix + "'.", parsePosition.getIndex());
@@ -99,7 +99,7 @@ public class DurationParser {
 	 * @param s             the string to inspect
 	 * @param parsePosition the current parse position identifying the index from which to start consuming
 	 */
-	private static void consumeWhitespace(String s, ParsePosition parsePosition) {
+	private static void consumeWhitespace(final String s, final ParsePosition parsePosition) {
 		while (parsePosition.getIndex() < s.length() && Character.isWhitespace(s.charAt(parsePosition.getIndex())))
 			parsePosition.setIndex(parsePosition.getIndex() + 1);
 	}

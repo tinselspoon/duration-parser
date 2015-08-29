@@ -6,7 +6,8 @@ import org.junit.rules.ExpectedException;
 
 import java.text.ParseException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Unit util for {@link DurationParser}.
@@ -15,28 +16,28 @@ public class DurationParserTest {
 	/**
 	 * Used for readability in other constants.
 	 */
-	private static final int seconds = 1;
+	private static final int SECONDS = 1;
 
 	/**
 	 * Number of seconds in a minute.
 	 */
-	private static final int minutes = 60 * seconds;
+	private static final int MINUTES = 60 * SECONDS;
 
 	/**
 	 * Number of seconds in an hour.
 	 */
-	private static final int hours = 60 * minutes;
+	private static final int HOURS = 60 * MINUTES;
 
 	/**
 	 * Number of seconds in a day.
 	 */
-	private static final int days = 24 * hours;
+	private static final int DAYS = 24 * HOURS;
 
 	/**
 	 * The exception rule.
 	 */
 	@Rule
-	public ExpectedException expectedException = ExpectedException.none();
+	public final ExpectedException expectedException = ExpectedException.none();
 
 	/**
 	 * Test a variety of standard integer formats return the correct time.
@@ -45,21 +46,21 @@ public class DurationParserTest {
 	 */
 	@Test
 	public void testDurationParsingWithIntegerFormats() throws ParseException {
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d"), 2 * days);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h"), 2 * days + 4 * hours);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h 30m"), 2 * days + 4 * hours + 30 * minutes);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h 30m 20s"), 2 * days + 4 * hours + 30 * minutes + 20 * seconds);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d"), 2 * DAYS);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h"), 2 * DAYS + 4 * HOURS);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h 30m"), 2 * DAYS + 4 * HOURS + 30 * MINUTES);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2d 4h 30m 20s"), 2 * DAYS + 4 * HOURS + 30 * MINUTES + 20 * SECONDS);
 
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h"), 4 * hours);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 30m"), 4 * hours + 30 * minutes);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 30m 20s"), 4 * hours + 30 * minutes + 20 * seconds);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h"), 4 * HOURS);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 30m"), 4 * HOURS + 30 * MINUTES);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 30m 20s"), 4 * HOURS + 30 * MINUTES + 20 * SECONDS);
 
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m"), 30 * minutes);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m 20s"), 30 * minutes + 20 * seconds);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m"), 30 * MINUTES);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m 20s"), 30 * MINUTES + 20 * SECONDS);
 
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 20s"), 4 * hours + 20 * seconds);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m"), 30 * minutes);
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("20s"), 20 * seconds);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("4h 20s"), 4 * HOURS + 20 * SECONDS);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("30m"), 30 * MINUTES);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("20s"), 20 * SECONDS);
 	}
 
 	/**
@@ -69,10 +70,10 @@ public class DurationParserTest {
 	 */
 	@Test
 	public void testDurationParsingWithDecimalFormats() throws ParseException {
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d"), Math.round(2.5 * days));
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h"), Math.round(2.5 * days) + Math.round(4.3 * hours));
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h 0.8m"), Math.round(2.5 * days) + Math.round(4.3 * hours) + Math.round(0.8 * minutes));
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h 0.8m 0.5s"), Math.round(2.5 * days) + Math.round(4.3 * hours) + Math.round(0.8 * minutes) + Math.round(0.5 * seconds));
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d"), Math.round(2.5 * DAYS));
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h"), Math.round(2.5 * DAYS) + Math.round(4.3 * HOURS));
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h 0.8m"), Math.round(2.5 * DAYS) + Math.round(4.3 * HOURS) + Math.round(0.8 * MINUTES));
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("2.5d 4.3h 0.8m 0.5s"), Math.round(2.5 * DAYS) + Math.round(4.3 * HOURS) + Math.round(0.8 * MINUTES) + Math.round(0.5 * SECONDS));
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class DurationParserTest {
 	 */
 	@Test
 	public void testDurationParsingWithMixedWhitespace() throws ParseException {
-		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("  2.5d   4.3h8m  "), Math.round(2.5 * days) + Math.round(4.3 * hours) + 8 * minutes);
+		assertEquals("Unexpected duration.", DurationParser.parseToSeconds("  2.5d   4.3h8m  "), Math.round(2.5 * DAYS) + Math.round(4.3 * HOURS) + 8 * MINUTES);
 	}
 
 	/**
@@ -93,7 +94,7 @@ public class DurationParserTest {
 		try {
 			DurationParser.parseToSeconds("5");
 			fail("Expected a ParseException to be thrown.");
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			assertEquals("Unexpected ParseException error offset.", 1, e.getErrorOffset());
 		}
 	}
@@ -106,7 +107,7 @@ public class DurationParserTest {
 		try {
 			DurationParser.parseToSeconds("4.5d 8. 2m");
 			fail("Expected a ParseException to be thrown.");
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			assertEquals("Unexpected ParseException error offset.", 7, e.getErrorOffset());
 		}
 	}
@@ -119,7 +120,7 @@ public class DurationParserTest {
 		try {
 			DurationParser.parseToSeconds("2m 4z 6h");
 			fail("Expected a ParseException to be thrown.");
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 			assertEquals("Unexpected ParseException error offset.", 4, e.getErrorOffset());
 			assertEquals("Unexpected ParseException message.", "Invalid suffix 'z'.", e.getLocalizedMessage());
 		}
